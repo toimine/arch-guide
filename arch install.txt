@@ -1,0 +1,53 @@
+cfdisk
+-- make partitions in cfdisk (primary,bootable!)
+
+mkswap swap partition
+
+mount root partition /mnt
+swapon swap partition
+
+pacstrap /mnt base linux linux-firmware base-devel dhcpcd nano man networkmanager grub
+
+genfstab -U /mnt >> /mnt/etc/fstab
+
+arch-chroot /mnt
+
+grub-install --target=i386-pc disk
+grub-mkconfig -o /boot/grub/grub.cfg
+
+ln -sf /usr/share/zoneinfo/Asia/Yekaterinburg /etc/localtime
+hwclock --systohc
+
+nano /etc/locale.gen
+-- uncomment locales
+locale-gen
+nano /etc/locale.conf
+-- write LANG=en_US.UTF-8
+
+nano /etc/hostname
+-- name the system
+
+passwd
+-- add a root password
+
+reboot
+login as root
+
+ip link
+dhcpcd the thing in ip link
+
+useradd -m -g users -s /bin/bash toimine
+gpasswd -a toimine wheel
+
+EDITOR=nano visudo
+-- uncomment the wheel part
+
+systemctl enable NetworkManager.service
+
+pacman -Ss xf86-video
+--install the needed driver
+
+pacman -Syu xorg xorg-xinit xterm
+pacman -Syu xorg-server xterm xfce4
+pacman -Syu lightdm lightdm-gtk-greeter
+systemctl enable lightdm
