@@ -6,7 +6,9 @@ mkswap swap partition
 mount root partition /mnt
 swapon swap partition
 
-pacstrap /mnt base linux linux-firmware base-devel dhcpcd nano man networkmanager grub
+iwctl (i need this to set up wifi on a real machine)
+
+pacstrap /mnt base linux linux-firmware base-devel dhcpcd nano man networkmanager grub iwd
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -34,7 +36,10 @@ reboot
 login as root
 
 ip link
-dhcpcd the thing in ip link (don't do it during installation it won't help)
+dhcpcd the thing in ip link (don't do it during installation it won't help) (this might be for the vm only)
+systemctl enable iwd.service
+systemctl start iwd.service
+iwctl (in case the first method doesn't work)
 
 useradd -m -g users -s /bin/bash toimine
 gpasswd -a toimine wheel
