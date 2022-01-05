@@ -22,7 +22,7 @@ nano /etc/locale.gen
 -- uncomment locales
 locale-gen
 nano /etc/locale.conf
--- write LANG=en_US.UTF-8
+-- write LANG=ru_RU.UTF-8
 
 nano /etc/hostname
 -- name the system
@@ -34,20 +34,20 @@ reboot
 login as root
 
 ip link
-dhcpcd the thing in ip link
+dhcpcd the thing in ip link (don't do it during installation it won't help)
 
 useradd -m -g users -s /bin/bash toimine
 gpasswd -a toimine wheel
+passwd toimine
+-- give myself a password, can't login without it (don't have to login now tho)
 
 EDITOR=nano visudo
 -- uncomment the wheel part
 
-systemctl enable NetworkManager.service
+systemctl enable NetworkManager.service (case sensitive)
 
 pacman -Ss xf86-video
---install the needed driver
+--install the needed video driver
 
-pacman -Syu xorg xorg-xinit xterm
-pacman -Syu xorg-server xterm xfce4
-pacman -Syu lightdm lightdm-gtk-greeter
+pacman -Syu xorg xorg-xinit xterm xorg-server xfce4 lightdm lightdm-gtk-greeter
 systemctl enable lightdm
